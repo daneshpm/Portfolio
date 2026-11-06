@@ -1,424 +1,337 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danesh P M | Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
-    <style>
-        :root {
-            --primary: #3498db;
-            --secondary: #2c3e50;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --text: #333;
-            --bg: #f9f9f9;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: var(--text); background-color: var(--bg); overflow-x: hidden; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danesh P M — Java, Spring Boot &amp; DevOps Engineer in Bengaluru</title>
+<meta name="description" content="Danesh P M is a Bengaluru backend and DevOps engineer: Java, Spring Boot, Docker, Kubernetes, Jenkins CI/CD and DevSecOps. See projects, experience and contact.">
+<meta name="author" content="Danesh P M">
+<meta name="theme-color" content="#06080c">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://daneshpm.github.io/Portfolio/">
 
-        /* Hero */
-        .hero { height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white; text-align: center; position: relative; overflow: hidden; }
-        .hero-content { z-index: 2; max-width: 800px; }
-        .hero h1 { font-size: 4rem; margin-bottom: 1rem; font-weight: 700; font-family: 'Raleway', sans-serif; }
-        .hero p { font-size: 1.5rem; margin-bottom: 2rem; opacity: 0.9; }
-        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+'); }
-        .btn { display: inline-block; padding: 12px 30px; background-color: var(--accent); color: white; border-radius: 30px; text-decoration: none; font-weight: 500; transition: all 0.3s ease; border: none; cursor: pointer; font-size: 1rem; }
-        .btn:hover { background-color: #c0392b; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="Danesh P M">
+<meta property="og:title" content="Danesh P M — Java, Spring Boot &amp; DevOps Engineer">
+<meta property="og:description" content="I build Java &amp; Spring Boot APIs and the CI/CD pipelines that ship them. Scroll the pipeline, run the terminal, ship a hello.">
+<meta property="og:url" content="https://daneshpm.github.io/Portfolio/">
+<meta property="og:image" content="https://daneshpm.github.io/Portfolio/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Danesh P M — Backend and DevOps engineer. Portfolio shown as a CI/CD pipeline.">
+<meta property="profile:username" content="daneshpm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Danesh P M — Java, Spring Boot &amp; DevOps Engineer">
+<meta name="twitter:description" content="I build Java &amp; Spring Boot APIs and the CI/CD pipelines that ship them.">
+<meta name="twitter:image" content="https://daneshpm.github.io/Portfolio/assets/og.png">
 
-        /* Sections */
-        section { padding: 100px 0; }
-        .section-title { text-align: center; margin-bottom: 60px; font-family: 'Raleway', sans-serif; font-size: 2.5rem; color: var(--secondary); position: relative; }
-        .section-title:after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background-color: var(--primary); }
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
 
-        /* About */
-        .about-content { display: flex; align-items: center; gap: 50px; }
-        .about-text { flex: 1; }
-        .about-text h3 { font-size: 1.8rem; margin-bottom: 20px; color: var(--secondary); }
-        .about-text p { margin-bottom: 15px; font-size: 1.05rem; }
-        .about-badges { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
-        .badge { background: var(--light); color: var(--secondary); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; }
-        .profile-img { flex: 1; text-align: center; }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script>document.documentElement.classList.add('js');setTimeout(function(){if(!document.documentElement.classList.contains('ready'))document.documentElement.classList.remove('js')},7000);</script>
 
-        /* Timeline */
-        .timeline { position: relative; max-width: 1200px; margin: 0 auto; }
-        .timeline::after { content: ''; position: absolute; width: 6px; background-color: var(--primary); top: 0; bottom: 0; left: 50%; margin-left: -3px; }
-        .timeline-item { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; }
-        .timeline-item:nth-child(odd) { left: 0; }
-        .timeline-item:nth-child(even) { left: 50%; }
-        .timeline-content { padding: 20px 30px; background-color: white; position: relative; border-radius: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: all 0.3s ease; }
-        .timeline-content:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
-        .timeline-item::after { content: ''; position: absolute; width: 25px; height: 25px; right: -13px; background-color: white; border: 4px solid var(--primary); top: 15px; border-radius: 50%; z-index: 1; }
-        .timeline-item:nth-child(even)::after { left: -12px; }
-        .timeline-date { font-weight: bold; color: var(--primary); margin-bottom: 5px; }
-        .timeline-title { font-size: 1.3rem; margin-bottom: 10px; color: var(--secondary); }
-        .timeline-tag { display: inline-block; background: #eaf4fd; color: var(--primary); font-size: 0.75rem; padding: 2px 10px; border-radius: 12px; margin-bottom: 8px; font-weight: 600; }
-
-        /* Skills */
-        .skills-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
-        .skill-category { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: all 0.3s ease; }
-        .skill-category:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .skill-category h3 { font-size: 1.3rem; margin-bottom: 20px; color: var(--secondary); text-align: center; }
-        .skill-list { list-style-type: none; }
-        .skill-list li { padding: 9px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; font-size: 0.95rem; }
-        .skill-list li:last-child { border-bottom: none; }
-        .skill-list i { color: var(--primary); margin-right: 10px; font-size: 1.1rem; width: 20px; }
-
-        /* Projects */
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }
-        .project-card { background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: all 0.3s ease; }
-        .project-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .project-img { height: 200px; background-color: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; }
-        .project-content { padding: 25px; }
-        .project-title { font-size: 1.3rem; margin-bottom: 8px; color: var(--secondary); }
-        .project-date { color: var(--primary); font-weight: 500; margin-bottom: 12px; display: block; font-size: 0.9rem; }
-        .project-description { margin-bottom: 15px; font-size: 0.95rem; }
-        .project-tech { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
-        .tech-tag { background-color: var(--light); padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; color: var(--dark); }
-        .project-achievement { font-size: 0.88rem; color: #27ae60; font-weight: 500; }
-
-        /* Certifications */
-        .cert-section { background: #fff; }
-        .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-        .cert-card { background: var(--light); border-radius: 10px; padding: 24px; display: flex; align-items: flex-start; gap: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); transition: all 0.3s ease; }
-        .cert-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .cert-icon { font-size: 2rem; color: var(--primary); flex-shrink: 0; }
-        .cert-info h4 { font-size: 1rem; color: var(--secondary); margin-bottom: 4px; }
-        .cert-info p { font-size: 0.85rem; color: #666; }
-        .cert-status { display: inline-block; margin-top: 6px; font-size: 0.75rem; padding: 2px 10px; border-radius: 12px; font-weight: 600; }
-        .status-progress { background: #fff3cd; color: #856404; }
-        .status-active { background: #d1f5e0; color: #1a7a40; }
-
-        /* Contact */
-        .contact { background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white; text-align: center; }
-        .contact .section-title { color: white; }
-        .contact .section-title:after { background-color: white; }
-        .contact-info { display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; margin-bottom: 50px; }
-        .contact-item { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; }
-        .contact-item i { font-size: 1.5rem; }
-        .social-links { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
-        .social-link { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background-color: rgba(255,255,255,0.1); border-radius: 50%; color: white; font-size: 1.5rem; transition: all 0.3s ease; text-decoration: none; }
-        .social-link:hover { background-color: white; color: var(--primary); transform: translateY(-5px); }
-
-        footer { background-color: var(--dark); color: white; text-align: center; padding: 30px 0; }
-
-        @media screen and (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1.2rem; }
-            .about-content { flex-direction: column; }
-            .timeline::after { left: 31px; }
-            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
-            .timeline-item:nth-child(even) { left: 0; }
-            .timeline-item::after { left: 18px; }
-            .timeline-item:nth-child(even)::after { left: 18px; }
-        }
-    </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://daneshpm.github.io/Portfolio/#website",
+      "url": "https://daneshpm.github.io/Portfolio/",
+      "name": "Danesh P M — Portfolio",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://daneshpm.github.io/Portfolio/#person" }
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://daneshpm.github.io/Portfolio/#profile",
+      "url": "https://daneshpm.github.io/Portfolio/",
+      "name": "Danesh P M — Java, Spring Boot & DevOps Engineer",
+      "isPartOf": { "@id": "https://daneshpm.github.io/Portfolio/#website" },
+      "mainEntity": { "@id": "https://daneshpm.github.io/Portfolio/#person" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://daneshpm.github.io/Portfolio/#person",
+      "name": "Danesh P M",
+      "alternateName": "daneshpm",
+      "url": "https://daneshpm.github.io/Portfolio/",
+      "image": "https://daneshpm.github.io/Portfolio/assets/og.png",
+      "jobTitle": "Backend & DevOps Engineer",
+      "description": "Backend and DevOps engineer building Java and Spring Boot APIs, Docker and Kubernetes deployments, and Jenkins CI/CD pipelines with DevSecOps security scanning.",
+      "address": { "@type": "PostalAddress", "addressLocality": "Bengaluru", "addressRegion": "Karnataka", "addressCountry": "IN" },
+      "alumniOf": { "@type": "CollegeOrUniversity", "name": "Vijaya Vittala Institute of Technology (VTU)" },
+      "knowsAbout": ["Java", "Spring Boot", "REST APIs", "Docker", "Kubernetes", "Jenkins", "CI/CD", "DevSecOps", "SonarQube", "Trivy", "MLOps", "Python", "AWS", "PostgreSQL", "MongoDB", "Next.js"],
+      "sameAs": [
+        "https://github.com/daneshpm",
+        "https://www.linkedin.com/in/daneshpm",
+        "https://leetcode.com/daneshpm",
+        "https://www.hackerrank.com/daneshpm"
+      ]
+    }
+  ]
+}
+</script>
 </head>
+
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-    <!-- Hero -->
-    <section class="hero" id="home">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1>Danesh P M</h1>
-            <p>Software Developer | Java & Spring Boot | DevOps & MLOps</p>
-            <a href="#about" class="btn">Explore My Journey</a>
+<div id="boot" aria-hidden="true"><pre id="bootText"></pre><div class="skiphint">CLICK OR PRESS ANY KEY TO SKIP</div></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="noise" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div><div class="cursor-dot" aria-hidden="true"></div>
+
+<header class="topbar">
+  <a class="logo" href="#home" aria-label="Danesh P M — back to top"><i></i>danesh@pipeline:~</a>
+  <nav class="nav" aria-label="Primary">
+    <a href="#about">about</a><a href="#skills">skills</a><a href="#projects">projects</a><a href="#contact">contact</a>
+    <button class="kbd-btn" id="openPalette" type="button" aria-label="Open command palette">search <kbd>Ctrl K</kbd></button>
+  </nav>
+</header>
+
+<aside class="rail" aria-label="Page progress shown as a CI/CD pipeline">
+  <ol id="rail">
+    <li data-target="home" data-state="running"><a href="#home"><i class="dot"></i><span class="lab">01 COMMIT</span><span class="st">running…</span></a></li>
+    <li data-target="about" data-state="queued"><a href="#about"><i class="dot"></i><span class="lab">02 BUILD</span><span class="st">queued</span></a></li>
+    <li data-target="skills" data-state="queued"><a href="#skills"><i class="dot"></i><span class="lab">03 SCAN</span><span class="st">queued</span></a></li>
+    <li data-target="projects" data-state="queued"><a href="#projects"><i class="dot"></i><span class="lab">04 TEST</span><span class="st">queued</span></a></li>
+    <li data-target="contact" data-state="queued"><a href="#contact"><i class="dot"></i><span class="lab">05 DEPLOY</span><span class="st">queued</span></a></li>
+  </ol>
+</aside>
+
+<main id="main">
+
+  <!-- ============ 01 COMMIT / HERO ============ -->
+  <section id="home" class="hero" aria-labelledby="hero-title">
+    <div>
+      <p class="eyebrow reveal"><b></b>backend &amp; devops engineer · bengaluru, india</p>
+      <h1 id="hero-title" class="reveal" style="--d:.08s"><span class="grad">Danesh</span><br>P M</h1>
+      <p class="lead reveal" style="--d:.16s">I build <strong>Java &amp; Spring Boot APIs</strong> — then automate how they ship: <strong>Docker, Kubernetes, Jenkins CI/CD</strong> and security scanning baked into the pipeline.</p>
+      <div class="cta reveal" style="--d:.24s">
+        <a class="btn primary mag" href="#projects">See the work →</a>
+        <a class="btn ghost mag" href="#contact">Let’s talk</a>
+      </div>
+      <div class="scroll-hint reveal" style="--d:.32s"><i></i>SCROLL TO RUN THE PIPELINE</div>
+    </div>
+
+    <div class="term reveal" style="--d:.2s" id="term" role="region" aria-label="Interactive terminal. Type help for commands.">
+      <div class="term-bar"><i></i><i></i><i></i><span>~/danesh — zsh</span></div>
+      <div class="term-body" id="termBody" aria-live="polite">
+        <noscript><div class="line">$ whoami<br>danesh — backend &amp; devops engineer, Bengaluru<br>Java · Spring Boot · Docker · Kubernetes · Jenkins</div></noscript>
+      </div>
+      <form class="term-form" id="termForm" autocomplete="off">
+        <label for="termInput">$</label>
+        <input id="termInput" type="text" spellcheck="false" autocapitalize="off" placeholder="try: help" aria-label="Terminal command">
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ 02 BUILD / ABOUT ============ -->
+  <section id="about" aria-labelledby="about-title">
+    <p class="stage-tag reveal">02 / BUILD</p>
+    <h2 id="about-title" class="reveal" data-scramble>Building things that <em>ship</em>.</h2>
+
+    <div class="about-grid">
+      <div class="reveal">
+        <p>I’m a <strong>backend and DevOps engineer</strong> from Bengaluru. I like the whole path from <strong>code to production</strong>: designing clean REST APIs with Java and Spring Boot, packaging them in containers, and wiring up pipelines that build, scan, test and deploy without anyone babysitting them.</p>
+        <p>I did my <strong>B.E. in AI &amp; ML (VTU)</strong> with a 9+ CGPA, and spent internships at <strong>IBM</strong> (DevOps), <strong>PRAGYAN AI</strong> and <strong>COMSOFT</strong> (machine learning). That mix shows up in my work: services with proper tests and docs, pipelines with security gates, and ML experiments that are tracked and reproducible.</p>
+        <p>Outside work I solve DSA problems in Java on <a class="ok" href="https://leetcode.com/daneshpm" target="_blank" rel="noopener">LeetCode</a> and <a class="ok" href="https://www.hackerrank.com/daneshpm" target="_blank" rel="noopener">HackerRank</a>, and keep shipping side projects.</p>
+      </div>
+      <div class="stats reveal" style="--d:.1s" data-stagger>
+        <div class="stat"><b data-count="9" data-suffix="+">9+</b><span>CGPA · B.E. AI &amp; ML</span></div>
+        <div class="stat"><b data-count="3">3</b><span>internships · IBM, PRAGYAN, COMSOFT</span></div>
+        <div class="stat"><b data-count="8">8</b><span>projects featured below</span></div>
+        <div class="stat"><b data-count="100" data-suffix="+">100+</b><span>DSA problems solved in Java</span></div>
+      </div>
+    </div>
+
+    <h3 class="log-title reveal">$ git log --oneline --graph</h3>
+    <div class="log" data-stagger>
+      <article class="entry reveal">
+        <div class="when"><span class="hash" aria-hidden="true">● 9f3c2a1</span>Sep – Dec 2024</div>
+        <div>
+          <h3>DevOps Intern <small>@ IBM · VTU-PMKVY AICTE program</small></h3>
+          <ul>
+            <li>Automated an end-to-end CI/CD pipeline in Jenkins, cutting deployment time by ~40% across 3 cloud environments.</li>
+            <li>Added SonarQube code-quality analysis and Trivy container scanning, plus OWASP ZAP dynamic testing as a pipeline gate.</li>
+            <li>Containerised apps with Docker and deployed to a Kubernetes cluster on AWS EC2 (RBAC and network policies), in a 4-person team.</li>
+          </ul>
         </div>
-    </section>
-
-    <!-- About -->
-    <section class="about" id="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Hello! I'm Danesh 👋</h3>
-                    <p>I'm a motivated Software Developer (fresher) with a strong foundation in Java, Spring Boot, and full stack web technologies. I enjoy building clean backend systems and scalable REST APIs that solve real problems.</p>
-                    <p>I completed my B.E. in AI & ML at Vijaya Vittala Institute of Technology with a 9+ CGPA. I've gained hands-on experience through internships at IBM, PRAGYAN AI, and COMSOFT TECHNOLOGY — working across DevOps, machine learning, and backend development.</p>
-                    <p>When I'm not coding, I'm solving problems on LeetCode and HackerRank or exploring the latest in backend and cloud technologies.</p>
-                    <div class="about-badges">
-                        <span class="badge">☕ Java & Spring Boot</span>
-                        <span class="badge">🐳 Docker & Kubernetes</span>
-                        <span class="badge">🤖 MLOps</span>
-                        <span class="badge">📊 9+ CGPA</span>
-                        <span class="badge">💻 LeetCode & HackerRank</span>
-                    </div>
-                    <a href="#contact" class="btn">Get In Touch</a>
-                </div>
-                <div class="profile-img">
-                    <div style="width:300px;height:300px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:5rem;margin:0 auto;">
-                        <i class="fas fa-user"></i>
-                    </div>
-                </div>
-            </div>
+      </article>
+      <article class="entry reveal">
+        <div class="when"><span class="hash" aria-hidden="true">● 4be71d0</span>Oct – Nov 2023</div>
+        <div>
+          <h3>Machine Learning Intern <small>@ PRAGYAN AI · remote</small></h3>
+          <ul>
+            <li>Built a supervised regression model for car-price prediction with Python and scikit-learn, including EDA, preprocessing and feature engineering.</li>
+          </ul>
         </div>
-    </section>
-
-    <!-- Timeline -->
-    <section class="timeline-section" id="timeline">
-        <div class="container">
-            <h2 class="section-title">My Journey</h2>
-            <div class="timeline">
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">2021 – 2025</div>
-                        <span class="timeline-tag">Education</span>
-                        <h3 class="timeline-title">B.E. – Artificial Intelligence & Machine Learning</h3>
-                        <p>Vijaya Vittala Institute of Technology, VTU</p>
-                        <p><strong>CGPA: 9+</strong></p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">Sep 2024 – Dec 2024</div>
-                        <span class="timeline-tag">Internship</span>
-                        <h3 class="timeline-title">DevOps Intern — IBM</h3>
-                        <p>VTU-PMKVY AICTE Internship Program</p>
-                        <p style="margin-top:8px;font-size:0.9rem;">Built an end-to-end CI/CD pipeline using Jenkins, Docker, Kubernetes, SonarQube, and Trivy for automated deployment across cloud environments.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">Oct 2023 – Nov 2023</div>
-                        <span class="timeline-tag">Internship</span>
-                        <h3 class="timeline-title">Machine Learning Intern — PRAGYAN AI</h3>
-                        <p style="margin-top:8px;font-size:0.9rem;">Built and deployed a regression model for car price prediction using supervised learning and data preprocessing.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">Oct 2022 – Nov 2022</div>
-                        <span class="timeline-tag">Internship</span>
-                        <h3 class="timeline-title">ML with Python Intern — COMSOFT TECHNOLOGY</h3>
-                        <p style="margin-top:8px;font-size:0.9rem;">Developed and tested a voice classification ML model with performance analysis using Python.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">2019 – 2021</div>
-                        <span class="timeline-tag">Education</span>
-                        <h3 class="timeline-title">Pre-University (PCMB)</h3>
-                        <p>New Horizon PU College</p>
-                        <p><strong>Aggregate: 82%</strong></p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <div class="timeline-date">2018 – 2019</div>
-                        <span class="timeline-tag">Education</span>
-                        <h3 class="timeline-title">Class X</h3>
-                        <p>St Anne's High School</p>
-                        <p><strong>Aggregate: 83%</strong></p>
-                    </div>
-                </div>
-
-            </div>
+      </article>
+      <article class="entry reveal">
+        <div class="when"><span class="hash" aria-hidden="true">● 71aa90e</span>Oct – Nov 2022</div>
+        <div>
+          <h3>ML with Python Intern <small>@ COMSOFT Technology · remote</small></h3>
+          <ul>
+            <li>Developed and tested a voice-classification model in Python with performance analysis and accuracy benchmarking.</li>
+          </ul>
         </div>
-    </section>
-
-    <!-- Skills -->
-    <section class="skills" id="skills">
-        <div class="container">
-            <h2 class="section-title">Technical Skills</h2>
-            <div class="skills-container">
-                <div class="skill-category">
-                    <h3>Backend Development</h3>
-                    <ul class="skill-list">
-                        <li><i class="fab fa-java"></i> Java (Core Java, OOPs, Collections)</li>
-                        <li><i class="fas fa-leaf"></i> Spring & Spring Boot</li>
-                        <li><i class="fas fa-database"></i> Hibernate & JPA</li>
-                        <li><i class="fas fa-exchange-alt"></i> REST API Development</li>
-                        <li><i class="fas fa-database"></i> MySQL & MongoDB</li>
-                        <li><i class="fas fa-code"></i> SQL</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>DevOps & Tools</h3>
-                    <ul class="skill-list">
-                        <li><i class="fab fa-docker"></i> Docker</li>
-                        <li><i class="fas fa-cubes"></i> Kubernetes</li>
-                        <li><i class="fas fa-infinity"></i> Jenkins (CI/CD)</li>
-                        <li><i class="fas fa-shield-alt"></i> SonarQube & Trivy</li>
-                        <li><i class="fab fa-git-alt"></i> Git & GitHub</li>
-                        <li><i class="fas fa-box"></i> Maven & Postman</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Other Skills</h3>
-                    <ul class="skill-list">
-                        <li><i class="fab fa-python"></i> Python</li>
-                        <li><i class="fab fa-js"></i> JavaScript</li>
-                        <li><i class="fab fa-html5"></i> HTML5 & CSS3</li>
-                        <li><i class="fas fa-robot"></i> Machine Learning & MLOps</li>
-                        <li><i class="fas fa-chart-line"></i> MLflow & ETL Pipelines</li>
-                        <li><i class="fas fa-cloud"></i> AWS (basics)</li>
-                    </ul>
-                </div>
-            </div>
+      </article>
+      <article class="entry edu reveal">
+        <div class="when"><span class="hash" aria-hidden="true">● 0c5d8b7</span>2021 – 2025</div>
+        <div>
+          <h3>B.E. Artificial Intelligence &amp; Machine Learning <small>@ Vijaya Vittala Institute of Technology · VTU</small></h3>
+          <ul><li>CGPA 9+. Pre-University (PCMB) before that, at New Horizon PU College (82%).</li></ul>
         </div>
-    </section>
+      </article>
+    </div>
+  </section>
 
-    <!-- Projects -->
-    <section class="projects" id="projects">
-        <div class="container">
-            <h2 class="section-title">Technical Projects</h2>
-            <div class="projects-grid">
+  <!-- ============ 03 SCAN / SKILLS ============ -->
+  <section id="skills" aria-labelledby="skills-title">
+    <p class="stage-tag reveal">03 / SCAN</p>
+    <h2 id="skills-title" class="reveal" data-scramble>Skills, <em>scanned</em> and verified.</h2>
+    <p class="sub reveal">Everything below is something I’ve used in a project or an internship, not a wish list.</p>
 
-                <div class="project-card">
-                    <div class="project-img" style="background: linear-gradient(135deg,#1a5276,#3498db);">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Shopping Inventory Management System</h3>
-                        <span class="project-date">Java Backend Project</span>
-                        <p class="project-description">Developed 10+ RESTful APIs for managing products, categories, and stock levels with role-based access control and global exception handling.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Java</span>
-                            <span class="tech-tag">Spring Boot</span>
-                            <span class="tech-tag">Hibernate/JPA</span>
-                            <span class="tech-tag">MySQL</span>
-                            <span class="tech-tag">Maven</span>
-                        </div>
-                        <p class="project-achievement">✔ Role-based access (Admin/User) with optimized DB queries</p>
-                    </div>
-                </div>
+    <div class="scan reveal">
+      <div class="scan-head"><span>$ trivy fs --scanners skills ./danesh</span><span>report: <b>PASS</b></span></div>
+      <div class="scan-row"><span class="cat">languages</span><div class="chips"><span class="chip">Java</span><span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">SQL</span></div><span class="pass">✔ PASS</span></div>
+      <div class="scan-row"><span class="cat">backend</span><div class="chips"><span class="chip">Spring Boot</span><span class="chip">Spring Security · JWT</span><span class="chip">Hibernate / JPA</span><span class="chip">REST APIs</span><span class="chip">FastAPI</span><span class="chip">Swagger / OpenAPI</span><span class="chip">JUnit 5</span><span class="chip">Mockito</span></div><span class="pass">✔ PASS</span></div>
+      <div class="scan-row"><span class="cat">devops · ci/cd</span><div class="chips"><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Jenkins</span><span class="chip">GitLab CI</span><span class="chip">SonarQube</span><span class="chip">Trivy</span><span class="chip">OWASP ZAP</span><span class="chip">Git</span><span class="chip">Maven</span></div><span class="pass">✔ PASS</span></div>
+      <div class="scan-row"><span class="cat">cloud · os</span><div class="chips"><span class="chip">AWS EC2</span><span class="chip">Linux</span><span class="chip">Vercel</span></div><span class="pass">✔ PASS</span></div>
+      <div class="scan-row"><span class="cat">data</span><div class="chips"><span class="chip">MySQL</span><span class="chip">PostgreSQL</span><span class="chip">MongoDB</span><span class="chip">Redis</span></div><span class="pass">✔ PASS</span></div>
+      <div class="scan-row"><span class="cat">frontend</span><div class="chips"><span class="chip">React</span><span class="chip">Next.js</span><span class="chip">HTML · CSS</span></div><span class="pass">✔ PASS</span></div>
+      <div class="scan-row"><span class="cat">ml · mlops</span><div class="chips"><span class="chip">scikit-learn</span><span class="chip">MLflow</span><span class="chip">DagsHub</span><span class="chip">Sentence Transformers</span><span class="chip">Streamlit</span></div><span class="pass">✔ PASS</span></div>
+      <div class="scan-row"><span class="cat">in progress</span><div class="chips"><span class="chip learning">Java Full Stack · Full Stack Gyan</span><span class="chip learning">DSA · LeetCode &amp; HackerRank</span></div><span class="pass warn">… RUNNING</span></div>
+      <div class="scan-foot"><span>Total: <b>9 categories</b></span><span>Critical gaps: <b>0</b></span><span>Status: <b>always learning</b></span></div>
+    </div>
+  </section>
 
-                <div class="project-card">
-                    <div class="project-img" style="background: linear-gradient(135deg,#1e8449,#27ae60);">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Network Security Anomaly Detection</h3>
-                        <span class="project-date">MLOps Project — Feb 2025</span>
-                        <p class="project-description">End-to-end MLOps pipeline for anomaly detection in network traffic, with ETL pipelines, model tracking, and containerized deployment.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">MLflow</span>
-                            <span class="tech-tag">MongoDB</span>
-                            <span class="tech-tag">Docker</span>
-                            <span class="tech-tag">CI/CD</span>
-                        </div>
-                        <p class="project-achievement">✔ ~15–20% improvement in accuracy & pipeline efficiency</p>
-                    </div>
-                </div>
+  <!-- ============ 04 TEST / PROJECTS ============ -->
+  <section id="projects" aria-labelledby="proj-title">
+    <p class="stage-tag reveal">04 / TEST</p>
+    <h2 id="proj-title" class="reveal" data-scramble>Artifacts that <em>passed</em>.</h2>
+    <p class="sub reveal">Real repositories, real code. Live demos are marked; everything is open on GitHub.</p>
 
-                <div class="project-card">
-                    <div class="project-img" style="background: linear-gradient(135deg,#7d3c98,#a569bd);">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">DevSecOps CI/CD Pipeline</h3>
-                        <span class="project-date">IBM Internship Project — Dec 2024</span>
-                        <p class="project-description">Designed and deployed a secure CI/CD pipeline with automated vulnerability scanning, container orchestration, and compliance checks.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Jenkins</span>
-                            <span class="tech-tag">SonarQube</span>
-                            <span class="tech-tag">Trivy</span>
-                            <span class="tech-tag">Docker</span>
-                            <span class="tech-tag">Kubernetes</span>
-                        </div>
-                        <p class="project-achievement">✔ ~30% reduction in security vulnerabilities & deployment errors</p>
-                    </div>
-                </div>
+    <div class="proj-grid" data-stagger>
+      <article class="card wide reveal" data-tilt>
+        <div class="card-top"><span>project_01</span><span class="badge src">open source</span></div>
+        <h3>Rooman Bookings</h3>
+        <p>Multi-tenant appointment scheduling. A public booking page takes appointments; an internal dashboard manages services, staff, schedules and automated notifications. Built as a Turborepo monorepo with a Next.js app and a FastAPI service sharing one database and session store.</p>
+        <div class="stack"><span>Next.js</span><span>TypeScript</span><span>FastAPI</span><span>PostgreSQL</span><span>Redis</span><span>Docker</span><span>Turborepo</span></div>
+        <div class="links"><a href="https://github.com/daneshpm/booking" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
 
-            </div>
-        </div>
-    </section>
+      <article class="card wide reveal" data-tilt>
+        <div class="card-top"><span>project_02</span><span class="badge live">live</span></div>
+        <h3>ModuleForge</h3>
+        <p>A visual platform and deployment engine for composable, reusable software modules: a visual module builder, team workspace with channels and video meetings, and Git-synced one-click deployment to Vercel.</p>
+        <div class="stack"><span>TypeScript</span><span>Vercel</span><span>Realtime</span><span>Git integration</span></div>
+        <div class="links"><a href="https://moduleforge-deploy-pearl.vercel.app" target="_blank" rel="noopener">Live demo ↗</a><a href="https://github.com/daneshpm/moduleforge-deploy" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
 
-    <!-- Certifications -->
-    <section class="cert-section" id="certifications">
-        <div class="container">
-            <h2 class="section-title">Certifications & Learning</h2>
-            <div class="cert-grid">
-                <div class="cert-card">
-                    <div class="cert-icon"><i class="fab fa-java"></i></div>
-                    <div class="cert-info">
-                        <h4>Java Backend Development</h4>
-                        <p>Full Stack Gyan</p>
-                        <span class="cert-status status-progress">In Progress</span>
-                    </div>
-                </div>
-                <div class="cert-card">
-                    <div class="cert-icon"><i class="fas fa-code"></i></div>
-                    <div class="cert-info">
-                        <h4>LeetCode Problem Solving</h4>
-                        <p>Data Structures & Algorithms in Java</p>
-                        <span class="cert-status status-active">Active</span>
-                    </div>
-                </div>
-                <div class="cert-card">
-                    <div class="cert-icon"><i class="fab fa-hackerrank"></i></div>
-                    <div class="cert-info">
-                        <h4>HackerRank</h4>
-                        <p>Java & Problem Solving</p>
-                        <span class="cert-status status-active">Active</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+      <article class="card reveal" data-tilt>
+        <div class="card-top"><span>project_03</span><span class="badge live">live</span></div>
+        <h3>Mintoo Food Delivery</h3>
+        <p>Web app plus Android app for food ordering, with Razorpay payments, Firebase, a Telegram bot integration and an admin side.</p>
+        <div class="stack"><span>TypeScript</span><span>Android · Kotlin</span><span>Firebase</span><span>Razorpay</span></div>
+        <div class="links"><a href="https://food-ivory-gamma.vercel.app" target="_blank" rel="noopener">Live ↗</a><a href="https://github.com/daneshpm/food" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
 
-    <!-- Contact -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <span>danesh12112002@gmail.com</span>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <span>+91 8217207274</span>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>Bangalore, India</span>
-                </div>
-            </div>
-            <div class="social-links">
-                <a href="https://github.com/daneshpm" class="social-link" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://linkedin.com/in/danesh-p-m-254427324/" class="social-link" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                <a href="https://drive.google.com/drive/u/0/folders/1xd2KUnvKtySvEVxwxWPgi6HHGYDSppQi" class="social-link" target="_blank" title="Certificates"><i class="fas fa-certificate"></i></a>
-            </div>
-        </div>
-    </section>
+      <article class="card reveal" data-tilt>
+        <div class="card-top"><span>project_04</span><span class="badge work">internship</span></div>
+        <h3>DevSecOps Pipeline</h3>
+        <p>Jenkins pipeline with build, test and deploy stages and automated security gates: SonarQube, Trivy and OWASP ZAP, deploying to a Kubernetes cluster on AWS EC2 with RBAC and network policies.</p>
+        <div class="stack"><span>Jenkins</span><span>Docker</span><span>Kubernetes</span><span>AWS EC2</span><span>SonarQube</span><span>Trivy</span></div>
+        <p class="res">~40% faster deployments across 3 environments</p>
+        <div class="links"><a href="https://github.com/daneshpm/IBM" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Danesh P M. All Rights Reserved.</p>
-        </div>
-    </footer>
+      <article class="card reveal" data-tilt>
+        <div class="card-top"><span>project_05</span><span class="badge src">open source</span></div>
+        <h3>Network Security · MLOps</h3>
+        <p>End-to-end MLOps pipeline for detecting malicious network data: ETL from MongoDB Atlas, experiment tracking with MLflow and DagsHub, Dockerised and deployed through CI/CD.</p>
+        <div class="stack"><span>Python</span><span>MLflow</span><span>MongoDB Atlas</span><span>Docker</span><span>CI/CD</span></div>
+        <p class="res">~15–20% better model accuracy &amp; pipeline efficiency</p>
+        <div class="links"><a href="https://github.com/daneshpm/Major_Project" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
 
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.from(".hero-content h1", { duration: 1, y: 50, opacity: 0, ease: "power3.out" });
-        gsap.from(".hero-content p", { duration: 1, y: 30, opacity: 0, delay: 0.5, ease: "power3.out" });
-        gsap.from(".hero-content .btn", { duration: 1, y: 30, opacity: 0, delay: 1, ease: "power3.out" });
+      <article class="card reveal" data-tilt>
+        <div class="card-top"><span>project_06</span><span class="badge src">open source</span></div>
+        <h3>Smart Expense Tracker API</h3>
+        <p>REST API on Java 21 and Spring Boot: add, filter, total and delete expenses, with validation, global exception handling, Swagger docs, a unit-test suite and a Postman collection with a written test plan.</p>
+        <div class="stack"><span>Java 21</span><span>Spring Boot</span><span>JUnit 5</span><span>Mockito</span><span>OpenAPI</span></div>
+        <div class="links"><a href="https://github.com/daneshpm/Expense_tracker" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
 
-        gsap.utils.toArray("section").forEach(s => {
-            gsap.from(s, { scrollTrigger: { trigger: s, start: "top 80%", toggleActions: "play none none reverse" }, y: 50, opacity: 0, duration: 1, ease: "power3.out" });
-        });
+      <article class="card reveal" data-tilt>
+        <div class="card-top"><span>project_07</span><span class="badge src">open source</span></div>
+        <h3>Employee Management · JWT</h3>
+        <p>Full-stack app with JWT authentication, role-based access control (admin and user), employee CRUD, and a dashboard. Spring Security on the backend, protected routes on the React frontend.</p>
+        <div class="stack"><span>Spring Boot 3</span><span>Spring Security</span><span>JPA · MySQL</span><span>React</span></div>
+        <div class="links"><a href="https://github.com/daneshpm/Employee_mangement" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
 
-        gsap.utils.toArray(".timeline-item").forEach((item, i) => {
-            gsap.from(item, { scrollTrigger: { trigger: item, start: "top 80%", toggleActions: "play none none reverse" }, x: i % 2 === 0 ? -100 : 100, opacity: 0, duration: 1, ease: "power3.out" });
-        });
+      <article class="card reveal" data-tilt>
+        <div class="card-top"><span>project_08</span><span class="badge src">open source</span></div>
+        <h3>AI Resume Screening</h3>
+        <p>An ATS-style ranker that scores resumes against a job description using semantic similarity, skill matching and Gemini for a recruiter-style evaluation, with a Streamlit dashboard and CSV/JSON export.</p>
+        <div class="stack"><span>Python</span><span>Sentence Transformers</span><span>Gemini API</span><span>Streamlit</span></div>
+        <div class="links"><a href="https://github.com/daneshpm/ResumeScreeningAgent" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+    </div>
+    <p class="tests reveal">$ run-all-tests → <b>8 passed</b>, 0 failed · more on <a class="ok" href="https://github.com/daneshpm?tab=repositories" target="_blank" rel="noopener">GitHub ↗</a></p>
+  </section>
 
-        gsap.utils.toArray(".skill-category, .project-card, .cert-card").forEach((el, i) => {
-            gsap.from(el, { scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none reverse" }, y: 50, opacity: 0, duration: 0.8, delay: i * 0.1, ease: "power3.out" });
-        });
-    </script>
+  <!-- ============ 05 DEPLOY / CONTACT ============ -->
+  <section id="contact" aria-labelledby="contact-title">
+    <p class="stage-tag reveal">05 / DEPLOY</p>
+    <h2 id="contact-title" class="reveal" data-scramble>Ready to <em>ship</em> something together?</h2>
+    <div class="deploy-bar reveal" id="deployBar" aria-hidden="true"><i></i></div>
+    <p class="deploy-status reveal" id="deployStatus">deploying to production… 0%</p>
+
+    <a class="big-mail reveal" id="mailLink" href="#contact" data-copy>email me</a>
+    <p class="mute mono reveal" style="font-size:.78rem">click to copy · or write below</p>
+
+    <div class="contact-grid">
+      <form class="form reveal" id="mailForm">
+        <input type="text" name="name" placeholder="Your name" required aria-label="Your name" autocomplete="name">
+        <input type="email" name="email" placeholder="Your email" required aria-label="Your email" autocomplete="email">
+        <textarea name="msg" placeholder="What are we building?" required aria-label="Message"></textarea>
+        <button class="btn primary mag" type="submit">Send message →</button>
+        <small>Opens your email app with the message filled in.</small>
+      </form>
+      <div class="socials reveal" style="--d:.1s">
+        <a class="social" href="https://github.com/daneshpm" target="_blank" rel="noopener">GitHub <span>@daneshpm ↗</span></a>
+        <a class="social" href="https://www.linkedin.com/in/daneshpm" target="_blank" rel="noopener">LinkedIn <span>/in/daneshpm ↗</span></a>
+        <a class="social" href="https://leetcode.com/daneshpm" target="_blank" rel="noopener">LeetCode <span>@daneshpm ↗</span></a>
+        <a class="social" href="https://www.hackerrank.com/daneshpm" target="_blank" rel="noopener">HackerRank <span>@daneshpm ↗</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>© 2026 Danesh P M · Bengaluru, India</span>
+  <span>Built by hand with HTML, CSS &amp; vanilla JS · hosted on GitHub Pages</span>
+  <span><a href="https://github.com/daneshpm/Portfolio" target="_blank" rel="noopener">view source ↗</a></span>
+</footer>
+
+<div id="palette" hidden role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="pal">
+    <input id="palInput" type="text" placeholder="Type a command or search…" autocomplete="off" spellcheck="false" aria-label="Search commands">
+    <ul id="palList" role="listbox"></ul>
+    <div class="pal-foot"><span>↑↓ navigate</span><span>↵ select</span><span>esc close</span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" defer></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>
