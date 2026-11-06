@@ -1,0 +1,29 @@
+# Danesh P M
+
+> Backend and DevOps engineer based in Bengaluru, India. Builds Java and Spring Boot REST APIs, containerised deployments (Docker, Kubernetes) and Jenkins CI/CD pipelines with DevSecOps security scanning (SonarQube, Trivy, OWASP ZAP). Also works with Python, MLOps and Next.js.
+
+## Profile
+- Role: Backend & DevOps Engineer (early career)
+- Location: Bengaluru, Karnataka, India
+- Education: B.E. Artificial Intelligence & Machine Learning, Vijaya Vittala Institute of Technology (VTU), 2021-2025, CGPA 9+
+- Experience: DevOps Intern at IBM (Sep-Dec 2024, VTU-PMKVY AICTE program); Machine Learning Intern at PRAGYAN AI (Oct-Nov 2023); ML with Python Intern at COMSOFT Technology (Oct-Nov 2022)
+- Core skills: Java, Spring Boot, Spring Security (JWT), Hibernate/JPA, REST APIs, Docker, Kubernetes, Jenkins, SonarQube, Trivy, OWASP ZAP, AWS EC2, Linux, MySQL, PostgreSQL, MongoDB, Python, TypeScript, Next.js, React, MLflow
+
+## Links
+- [Portfolio](https://daneshpm.github.io/Portfolio/): projects, experience, skills, contact
+- [GitHub](https://github.com/daneshpm): source code for all projects
+- [LinkedIn](https://www.linkedin.com/in/daneshpm)
+- [LeetCode](https://leetcode.com/daneshpm) and [HackerRank](https://www.hackerrank.com/daneshpm): DSA practice in Java
+
+## Projects
+- [Rooman Bookings](https://github.com/daneshpm/booking): multi-tenant appointment scheduling; Next.js, FastAPI, PostgreSQL, Redis, Turborepo, Docker
+- [ModuleForge](https://github.com/daneshpm/moduleforge-deploy): visual platform and deployment engine for composable modules; live at https://moduleforge-deploy-pearl.vercel.app
+- [Mintoo Food Delivery](https://github.com/daneshpm/food): web and Android food ordering with Razorpay and Firebase; live at https://food-ivory-gamma.vercel.app
+- [DevSecOps Pipeline](https://github.com/daneshpm/IBM): Jenkins, Docker, Kubernetes, SonarQube, Trivy, OWASP ZAP on AWS EC2; ~40% faster deployments across 3 environments
+- [Network Security MLOps](https://github.com/daneshpm/Major_Project): ETL, MLflow/DagsHub tracking, Dockerised CI/CD; ~15-20% accuracy and pipeline efficiency improvement
+- [Smart Expense Tracker API](https://github.com/daneshpm/Expense_tracker): Java 21, Spring Boot, Swagger, JUnit 5, Mockito
+- [Employee Management with JWT](https://github.com/daneshpm/Employee_mangement): Spring Boot, Spring Security, React, MySQL
+- [AI Resume Screening](https://github.com/daneshpm/ResumeScreeningAgent): Sentence Transformers, Gemini API, Streamlit
+
+## Contact
+Use the contact form at https://daneshpm.github.io/Portfolio/#contact or message on LinkedIn.
