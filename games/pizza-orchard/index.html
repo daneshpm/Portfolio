@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Pizza Orchard</title>
+<meta name="description" content="Grow pizza on trees, burgers on bushes and tacos on the moon. A silly idle farm game that gets more absurd the longer you play.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%95%3C/text%3E%3C/svg%3E">
+<!-- PORTAL SDK: when submitting, add the portal's own SDK <script> tag here (see README.md).
+     ui.js auto-detects window.PokiSDK / window.CrazyGames.SDK. Only ONE portal's SDK per build. -->
+<style>
+  :root{--ink:#3b2a1a;--card:#fffaf0;--accent:#ff7a2f;--accent2:#d95a14;--good:#4caf50}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;color:var(--ink);min-height:100vh;
+    background:linear-gradient(#8fd6ff 0,#dff5ff 230px,#a9e27d 230px,#6dbd4c 100%) fixed;
+    user-select:none;-webkit-user-select:none;touch-action:manipulation;overflow-x:hidden}
+  button{font:inherit;color:inherit;cursor:pointer;border:0}
+  .clouds{position:fixed;inset:0 0 auto 0;height:230px;overflow:hidden;pointer-events:none;z-index:0}
+  .cloud{position:absolute;font-size:64px;opacity:.9;animation:drift linear infinite}
+  .cloud.a{top:18px;animation-duration:70s}.cloud.b{top:80px;font-size:44px;animation-duration:95s;animation-delay:-40s}.cloud.c{top:130px;font-size:54px;animation-duration:120s;animation-delay:-80s}
+  @keyframes drift{from{transform:translateX(-120px)}to{transform:translateX(110vw)}}
+
+  #app{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:12px}
+  .top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+  .brand{font-weight:900;font-size:22px;letter-spacing:.3px;text-shadow:0 2px 0 #fff8}
+  .bank{display:flex;align-items:baseline;gap:6px;font-weight:900;font-size:clamp(28px,6vw,44px);background:var(--card);border-radius:18px;padding:2px 18px;box-shadow:0 5px 0 rgba(0,0,0,.14)}
+  .stats{display:flex;flex-direction:column;font-weight:700;font-size:14px;line-height:1.25;background:#fffaf0cc;border-radius:12px;padding:5px 12px}
+  .spacer{flex:1}
+  .icon{width:42px;height:42px;border-radius:50%;background:var(--card);font-size:20px;box-shadow:0 3px 0 rgba(0,0,0,.14)}
+
+  main{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;align-items:start}
+  @media (max-width:860px){main{grid-template-columns:minmax(0,1fr)}}
+  @media (max-width:520px){
+    #app{padding:8px}
+    .brand{font-size:18px}.card{padding:10px;border-radius:18px}
+    .item{padding:8px;gap:8px}.item .ic{font-size:26px;width:32px}.buy{min-width:84px;padding:7px 8px;font-size:13px}
+    .tab{font-size:12px;padding:8px 2px}.bbtn{padding:9px 12px;font-size:14px}
+  }
+  #plantbar,#boost,.item,.tabs{min-width:0}
+  .card{background:var(--card);border-radius:22px;padding:14px;box-shadow:0 6px 0 rgba(0,0,0,.14)}
+
+  #farm{position:relative;border-radius:16px;overflow:hidden;box-shadow:inset 0 0 0 4px #4a9a33,0 0 0 4px #4a9a33;line-height:0;background:#72c74d}
+  #world{display:block;width:100%;aspect-ratio:720/520;touch-action:none;cursor:crosshair}
+  #world:focus{outline:none}
+  #start{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(20,40,10,.45);color:#fff;cursor:pointer;line-height:1.2;text-shadow:0 3px 0 rgba(0,0,0,.4);text-align:center;padding:12px}
+  #start .big{font-size:clamp(26px,6vw,44px);font-weight:900;background:var(--accent);padding:10px 26px;border-radius:18px;box-shadow:0 6px 0 var(--accent2);animation:pulse 1.2s ease-in-out infinite}
+  #start .sm{font-size:clamp(13px,3vw,17px);font-weight:800}
+  @keyframes pulse{50%{transform:scale(1.06)}}
+  #hint{margin:10px 2px 0;font-weight:700;font-size:14px;text-align:center;color:var(--ink);opacity:.85;line-height:1.35}
+  #hint:empty{display:none}
+
+  #plantbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  #plantbar .lbl{font-weight:800;font-size:13px;opacity:.75;margin-right:2px}
+  .pc{display:flex;flex-direction:column;align-items:center;min-width:56px;padding:6px 8px;border-radius:12px;background:#fff;box-shadow:0 3px 0 rgba(0,0,0,.12);font-size:22px;line-height:1.1}
+  .pc small{font-size:11px;font-weight:800;opacity:.7}
+  .pc.sel{outline:3px solid var(--accent);background:#fff1e0}
+  #orders{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:stretch}
+  #orders:empty{display:none}
+  #orders .ohead{flex-basis:100%;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+  #orders .lbl{font-weight:800;font-size:13px;opacity:.75}
+  #orders small{font-size:11px;font-weight:700;opacity:.7}
+  .ord{flex:1 1 0;min-width:84px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 8px;border-radius:12px;background:#fff;box-shadow:0 3px 0 rgba(0,0,0,.12);font-weight:800}
+  .ord .top{font-size:20px;line-height:1.1;display:flex;gap:6px;align-items:center}
+  .ord .top b{font-size:14px}
+  .ord .bar{display:block;width:100%;height:7px;border-radius:4px;background:#eadfc9;overflow:hidden}
+  .ord .bar i{display:block;height:100%;background:#86e048;transition:width .2s}
+  .ord.sel{outline:3px solid var(--accent);background:#fff1e0}
+  .ord.done{background:#e8f6dc}
+  .ord.done,.ord.locked{opacity:.7;cursor:default}
+  #boost{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .bbtn{background:linear-gradient(#ffd23f,#ffae1a);box-shadow:0 4px 0 #b97800;border-radius:14px;padding:10px 16px;font-weight:900}
+  .bbtn.coin{background:linear-gradient(#ffe9a8,#ffd266)}
+  .bbtn:disabled{filter:grayscale(.8);opacity:.6;cursor:default}
+  .bstat{font-weight:800}
+
+  .tabs{display:flex;gap:6px;margin-bottom:10px}
+  .tab{flex:1;padding:9px 6px;border-radius:12px;background:#f1e4cf;font-weight:800;font-size:14px}
+  .tab.on{background:var(--accent);color:#fff;box-shadow:0 3px 0 var(--accent2)}
+  .amt{display:flex;gap:6px;margin-bottom:10px;align-items:center;font-weight:800;font-size:13px}
+  .amt button{padding:4px 12px;border-radius:10px;background:#f1e4cf;font-weight:800}
+  .amt button.on{background:#3b2a1a;color:#fff}
+  .item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;background:#fff;box-shadow:0 3px 0 rgba(0,0,0,.1);margin-bottom:8px}
+  .item.dim{opacity:.55}
+  .item .ic{font-size:30px;width:38px;text-align:center}
+  .item .txt{flex:1;min-width:0;line-height:1.25}
+  .item .txt b{display:block;font-size:15px}
+  .item .txt small{opacity:.75;font-size:12px;font-weight:600}
+  .buy{background:var(--accent);color:#fff;border-radius:12px;padding:8px 12px;font-weight:900;font-size:14px;box-shadow:0 3px 0 var(--accent2);white-space:nowrap;min-width:96px}
+  .buy:disabled{background:#cdbfa8;box-shadow:0 3px 0 #a89a82;color:#fff;cursor:default}
+  .buy.sel{background:var(--good);box-shadow:0 3px 0 #2f7d32}
+  .note{font-size:13px;font-weight:600;line-height:1.4;margin:0 0 10px}
+  .link{background:none;text-decoration:underline;font-size:12px;opacity:.6;margin-top:8px}
+
+  #modal{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+  #modal.hidden{display:none}
+  .box{background:var(--card);border-radius:24px;padding:24px;max-width:420px;width:100%;text-align:center;box-shadow:0 8px 0 rgba(0,0,0,.25);animation:mpop .22s ease-out}
+  @keyframes mpop{from{transform:scale(.9);opacity:0}}
+  .box h2{margin:0 0 8px;font-size:26px}
+  .box p{margin:6px 0 14px;font-weight:600;line-height:1.4}
+  .box .big{font-size:34px;font-weight:900}
+  .box .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .box .buy{font-size:16px;padding:12px 18px}
+  .box .buy.alt{background:#3a7bd5;box-shadow:0 3px 0 #1f4c8f}
+  .box .buy.ghostb{background:#9a8a74;box-shadow:0 3px 0 #6f6250}
+  #toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+  .t{background:#3b2a1a;color:#fff;padding:10px 18px;border-radius:14px;font-weight:800;box-shadow:0 4px 0 #0005;animation:tin .25s ease-out,tout .3s ease-in 2.4s forwards}
+  @keyframes tin{from{transform:translateY(-16px);opacity:0}}
+  @keyframes tout{to{opacity:0;transform:translateY(-10px)}}
+</style>
+</head>
+<body>
+<div class="clouds"><span class="cloud a">☁️</span><span class="cloud b">☁️</span><span class="cloud c">☁️</span></div>
+<div id="app">
+  <header class="top">
+    <div class="brand">🍕 Pizza Orchard</div>
+    <div class="bank"><span id="coins">0</span><span>🪙</span></div>
+    <div class="stats"><span id="rate"></span><span id="forks"></span></div>
+    <div class="spacer"></div>
+    <button id="mute" class="icon" title="Mute (M)">🔊</button>
+  </header>
+  <main>
+    <section class="card">
+      <div id="farm"><canvas id="world" tabindex="0"></canvas>
+        <div id="start"><span class="big">▶ Click to play</span><span class="sm">🧑‍🌾 WASD / arrows to move · Space to sprint</span></div></div>
+      <div id="hint"></div>
+      <div id="orders"></div>
+      <div id="plantbar"></div>
+      <div id="boost"></div>
+    </section>
+    <section class="card">
+      <div class="tabs">
+        <button class="tab on" data-tab="up">🔧 Upgrades</button>
+        <button class="tab" data-tab="crops">🌱 Crops</button>
+        <button class="tab" data-tab="reboot">🍴 Reboot</button>
+      </div>
+      <div class="amt" id="amt"><span>Buy:</span><button data-amt="1" class="on">x1</button><button data-amt="10">x10</button><button data-amt="max">Max</button></div>
+      <div id="panel"></div>
+    </section>
+  </main>
+</div>
+<div id="modal" class="hidden"><div class="box" id="modalbox"></div></div>
+<div id="toast"></div>
+<script src="core.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>

@@ -118,12 +118,14 @@
   function countUp(el) {
     const target = +el.dataset.count;
     const suffix = el.dataset.suffix || '';
-    if (reduce) { el.textContent = target + suffix; return; }
+    const dec = +el.dataset.decimals || 0;
+    if (reduce) { el.textContent = target.toFixed(dec) + suffix; return; }
     const t0 = performance.now();
     const dur = 1400;
     const step = (t) => {
       const p = clamp((t - t0) / dur, 0, 1);
-      el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * target) + suffix;
+      const v = (1 - Math.pow(1 - p, 3)) * target;
+      el.textContent = (dec ? v.toFixed(dec) : Math.round(v)) + suffix;
       if (p < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
@@ -230,8 +232,8 @@
   const COMMANDS = {
     help: () => print(
       '<span class="info">commands</span>\n' +
-      '  whoami        who am i\n  skills        tech stack\n  projects      what I\'ve built\n  experience    where I\'ve worked\n  contact       get in touch\n  ls / cat      poke around\n  pipeline      run the pipeline\n  clear         clean the screen\n  <span class="mute">…and a few secrets. Try sudo.</span>'),
-    whoami: () => print('<span class="ok">danesh</span> — backend &amp; devops engineer · Bengaluru, India\nJava · Spring Boot · Docker · Kubernetes · Jenkins\nB.E. AI &amp; ML (VTU) · 9+ CGPA · 3 internships'),
+      '  whoami        who am i\n  skills        tech stack\n  projects      what I\'ve built\n  experience    where I\'ve worked\n  contact       get in touch\n  ls / cat      poke around\n  pipeline      run the pipeline\n  play          play my games\n  clear         clean the screen\n  <span class="mute">…and a few secrets. Try sudo.</span>'),
+    whoami: () => print('<span class="ok">danesh</span> — backend &amp; devops engineer · Bengaluru, India\nJava · Spring Boot · Docker · Kubernetes · Jenkins\nB.E. AI &amp; ML (VTU) · 9.04 CGPA · 3 internships'),
     skills: () => print(
       '<span class="info">languages</span>  Java, Python, JavaScript, TypeScript, SQL\n' +
       '<span class="info">backend</span>    Spring Boot, Spring Security, JPA, FastAPI\n' +
@@ -239,14 +241,15 @@
       '<span class="info">cloud</span>      AWS EC2, Linux, Vercel\n' +
       '<span class="info">data</span>       MySQL, PostgreSQL, MongoDB, Redis'),
     projects: () => { print(
-      '<span class="info">01</span> Rooman Bookings        Next.js · FastAPI · Postgres\n' +
+      '<span class="info">01</span> SlotFlow               Next.js · FastAPI · Postgres\n' +
       '<span class="info">02</span> ModuleForge            visual module builder <span class="ok">[live]</span>\n' +
-      '<span class="info">03</span> Mintoo Food Delivery   web + Android <span class="ok">[live]</span>\n' +
-      '<span class="info">04</span> DevSecOps Pipeline     Jenkins · K8s · Trivy\n' +
-      '<span class="info">05</span> Network Security MLOps MLflow · Docker\n' +
-      '<span class="info">06</span> Expense Tracker API    Java 21 · Spring Boot\n' +
-      '<span class="info">07</span> Employee Mgmt · JWT    Spring Security · React\n' +
-      '<span class="info">08</span> AI Resume Screening    Gemini · Streamlit\n<span class="mute">scrolling to projects…</span>'); setTimeout(() => goTo('#projects'), 500); },
+      '<span class="info">03</span> DevSecOps Pipeline     Jenkins · K8s · Trivy\n' +
+      '<span class="info">04</span> Network Security MLOps MLflow · Docker\n' +
+      '<span class="info">05</span> Expense Tracker API    Java 21 · Spring Boot\n' +
+      '<span class="info">06</span> Employee Mgmt · JWT    Spring Security · React\n' +
+      '<span class="info">07</span> AI Resume Screening    Gemini · Streamlit\n' +
+      '<span class="info">08</span> Cucumber Panic         browser game <span class="ok">[type: play]</span>\n' +
+      '<span class="info">09</span> Pizza Orchard         idle farm game <span class="ok">[type: play pizza]</span>\n<span class="mute">scrolling to projects…</span>'); setTimeout(() => goTo('#projects'), 500); },
     experience: () => print(
       '<span class="warn">Sep–Dec 2024</span>  DevOps Intern @ IBM\n<span class="warn">Oct–Nov 2023</span>  ML Intern @ PRAGYAN AI\n<span class="warn">Oct–Nov 2022</span>  ML with Python Intern @ COMSOFT'),
     contact: () => { print(
@@ -261,6 +264,12 @@
       print(a.length ? `cat: ${esc(a[0])}: No such file` : 'usage: cat &lt;file&gt;');
     },
     pipeline: () => runPipelineOutput(),
+    play: (a) => {
+      const pizza = /pizza|orchard|farm/i.test((a || []).join(' '));
+      print(pizza ? 'launching <span class="ok">Pizza Orchard</span>… 🍕' : 'launching <span class="ok">Cucumber Panic</span>… 🐱🥒 <span class="mute">(try: play pizza)</span>');
+      setTimeout(() => openGame(pizza ? 'pizza-orchard' : 'cucumber-panic'), 400);
+    },
+    game: (a) => COMMANDS.play(a),
     clear: () => { termBody.innerHTML = ''; },
     sudo: async (a) => {
       const cmd = a.join(' ').toLowerCase();
@@ -334,6 +343,8 @@
     { t: 'Open LinkedIn', k: 'linkedin', hint: '↗', run: () => open(LINKS.linkedin, '_blank', 'noopener') },
     { t: 'Open LeetCode', k: 'leetcode dsa', hint: '↗', run: () => open(LINKS.leetcode, '_blank', 'noopener') },
     { t: 'Open HackerRank', k: 'hackerrank', hint: '↗', run: () => open(LINKS.hackerrank, '_blank', 'noopener') },
+    { t: 'Play Cucumber Panic (browser game)', k: 'game play cat cucumber fun', hint: 'game', run: () => openGame('cucumber-panic') },
+    { t: 'Play Pizza Orchard (idle farm game)', k: 'game play pizza farm idle fun', hint: 'game', run: () => openGame('pizza-orchard') },
     { t: 'sudo hire danesh', k: 'hire confetti party', hint: 'secret', run: () => { confetti(); toast('Permission granted ✔'); goTo('#contact'); } },
   ];
   let palItems = [], palSel = 0, lastFocus = null;
@@ -377,8 +388,41 @@
   addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); pal.hidden ? openPalette() : closePalette(); }
     else if (e.key === 'Escape' && !pal.hidden) closePalette();
+    else if (e.key === 'Escape' && !gameModal.hidden) closeGame();
     else if (e.key === '/' && pal.hidden && !/input|textarea/i.test(document.activeElement.tagName)) { e.preventDefault(); openPalette(); }
   });
+
+  /* ---------------- Game modal ---------------- */
+  const gameModal = $('#gameModal'), gameFrame = $('#gameFrame');
+  let gameFocus = null;
+  const GAMES = {
+    'cucumber-panic': { title: '🐱 Cucumber Panic', hint: 'WASD / arrows / drag to move · attacks are automatic · P pause · M mute', src: 'games/cucumber-panic/index.html' },
+    'pizza-orchard': { title: '🍕 Pizza Orchard', hint: 'WASD / arrows / tap & drag to move · stand on soil to plant, water and harvest', src: 'games/pizza-orchard/index.html' },
+  };
+  function openGame(id) {
+    const g = GAMES[id] || GAMES['cucumber-panic'];
+    gameFocus = document.activeElement;
+    $('#gameTitle').textContent = g.title;
+    $('#gameHint').textContent = g.hint;
+    gameFrame.title = g.title;
+    gameModal.setAttribute('aria-label', g.title + ', a browser game');
+    gameFrame.src = g.src;
+    gameModal.hidden = false;
+    if (lenis) lenis.stop();
+    document.body.style.overflow = 'hidden';
+    gameFrame.addEventListener('load', () => { try { gameFrame.contentWindow.focus(); } catch (_) {} }, { once: true });
+    setTimeout(() => { try { gameFrame.contentWindow.focus(); } catch (_) {} }, 300);
+  }
+  function closeGame() {
+    gameModal.hidden = true;
+    gameFrame.removeAttribute('src'); // stops the game loop and audio
+    document.body.style.overflow = '';
+    if (lenis) lenis.start();
+    if (gameFocus && gameFocus.focus) gameFocus.focus();
+  }
+  $('#gameClose').addEventListener('click', closeGame);
+  gameModal.addEventListener('click', (e) => { if (e.target === gameModal) closeGame(); });
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-play]'); if (b) openGame(b.dataset.play); });
 
   /* ---------------- Cursor, magnet, tilt, spotlight ---------------- */
   function initPointerFx() {

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Cucumber Panic</title>
+<meta name="description" content="Survive endless waves of cucumbers as a cat. Auto-attack roguelite: level up, grab weapons, beat King Cucumber.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%B1%3C/text%3E%3C/svg%3E">
+<!-- PORTAL SDK: when submitting, add the portal's own SDK <script> tag here (see README.md).
+     game.js auto-detects window.PokiSDK / window.CrazyGames.SDK. Only ONE portal's SDK per build. -->
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:#1b2a20;font-family:system-ui,Segoe UI,Arial,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
+  canvas{display:block;touch-action:none}
+  #ov{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(10,18,12,.78);color:#fff;text-align:center;padding:16px;box-sizing:border-box;overflow:auto}
+  #ov.hidden{display:none}
+  #ov.menu{background:rgba(10,18,12,.5)}
+  #ov>*{animation:pop .2s ease-out both}
+  @keyframes pop{from{transform:scale(.93) translateY(8px);opacity:0}to{transform:none;opacity:1}}
+  h1{margin:0;font-size:clamp(34px,8vw,64px);letter-spacing:1px;background:linear-gradient(#fff3a0,#ff9d3a);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 0 #000a)}
+  h2{margin:0;font-size:clamp(24px,5vw,38px)}
+  .sub{opacity:.8;font-size:15px;margin:0}
+  .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  button{font:inherit;color:#fff;border:0;border-radius:14px;padding:12px 20px;background:#e8782a;cursor:pointer;font-weight:700;font-size:18px;box-shadow:0 4px 0 #8f4410}
+  button:active{transform:translateY(3px);box-shadow:0 1px 0 #8f4410}
+  button.big{font-size:26px;padding:16px 40px}
+  button.alt{background:#3a7bd5;box-shadow:0 4px 0 #1f4c8f}
+  button.ghost{background:#4a5a4e;box-shadow:0 4px 0 #2a352d}
+  button:disabled{opacity:.45;cursor:default}
+  button{transition:transform .08s,filter .12s}
+  button:hover:not(:disabled){filter:brightness(1.12)}
+  .card{display:flex;flex-direction:column;align-items:center;gap:4px;width:170px;padding:16px 10px;background:linear-gradient(#3b6845,#2d4a36);border:2px solid #5a8f66;box-shadow:0 4px 0 #162a1c;font-size:16px}
+  .card:hover:not(:disabled){transform:translateY(-5px)}
+  .card .ic{font-size:44px}
+  .card small{font-weight:400;opacity:.85;font-size:13px}
+  .shop{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:640px}
+  .shop button{width:190px;font-size:14px;padding:10px;background:#2d4a36;box-shadow:0 3px 0 #162a1c}
+  .shop button.sel{outline:3px solid #ffe14a}
+  #mute{position:fixed;right:10px;bottom:10px;width:44px;height:44px;padding:0;border-radius:50%;font-size:20px;background:#0007;box-shadow:none}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ov"></div>
+<button id="mute" title="Mute (M)">🔊</button>
+<script src="game.js"></script>
+</body>
+</html>
