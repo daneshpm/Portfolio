@@ -6,7 +6,7 @@
 <title>Danesh P M — Java, Spring Boot &amp; DevOps Engineer in Bengaluru</title>
 <meta name="description" content="Danesh P M is a Bengaluru backend and DevOps engineer: Java, Spring Boot, Docker, Kubernetes, Jenkins CI/CD and DevSecOps. See projects, experience and contact.">
 <meta name="author" content="Danesh P M">
-<meta name="theme-color" content="#06080c">
+<meta name="theme-color" content="#04050b">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://daneshpm.github.io/Portfolio/">
 
@@ -85,12 +85,14 @@
 <div id="boot" aria-hidden="true"><pre id="bootText"></pre><div class="skiphint">CLICK OR PRESS ANY KEY TO SKIP</div></div>
 <canvas id="bg" aria-hidden="true"></canvas>
 <div class="noise" aria-hidden="true"></div>
+<div class="hud" aria-hidden="true"><div><span>PHASE</span><b id="hudPhase">LAUNCH</b></div><div><span>DISTANCE TO SINGULARITY</span><b id="hudDist">42.0 AU</b></div><div><span>VELOCITY</span><b id="hudVel">0.05c</b></div></div>
 <div class="cursor-ring" aria-hidden="true"></div><div class="cursor-dot" aria-hidden="true"></div>
 
 <header class="topbar">
   <a class="logo" href="#home" aria-label="Danesh P M — back to top"><i></i>danesh@pipeline:~</a>
   <nav class="nav" aria-label="Primary">
     <a href="#about">about</a><a href="#skills">skills</a><a href="#projects">projects</a><a href="#contact">contact</a>
+    <button class="kbd-btn fx-toggle" id="fxToggle" type="button" aria-pressed="true" aria-label="Toggle space effects">✦<span class="fx-text"> effects: on</span></button>
     <button class="kbd-btn" id="openPalette" type="button" aria-label="Open command palette">search <kbd>Ctrl K</kbd></button>
   </nav>
 </header>
@@ -217,6 +219,7 @@
     <p class="stage-tag reveal">04 / TEST</p>
     <h2 id="proj-title" class="reveal" data-scramble>Artifacts that <em>passed</em>.</h2>
     <p class="sub reveal">Real repositories, real code. Live demos are marked; everything is open on GitHub.</p>
+    <div class="tunnel-gap" aria-hidden="true"></div>
 
     <div class="proj-grid" data-stagger>
       <article class="card wide reveal" data-tilt>
@@ -339,5 +342,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" defer></script>
 <script src="js/main.js" defer></script>
+<script src="js/space.js" defer></script>
 </body>
 </html>
