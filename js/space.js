@@ -54,7 +54,9 @@ precision highp float;
 precision mediump float;
 #endif
 uniform vec2 uRes, uHole;
-uniform float uTime, uJ, uRs, uTunnel, uExit, uDim, uAsp;
+uniform float uTime, uJ, uRs, uTunnel, uExit, uDim, uAsp, uWarp, uMouseOn;
+uniform vec2 uMouse;
+uniform vec3 uPulse;
 
 float hash(vec2 p){ p = fract(p*vec2(123.34, 456.21)); p += dot(p, p+45.32); return fract(p.x*p.y); }
 float noise(vec2 p){
@@ -126,8 +128,28 @@ void main(){
 
   float k = rs*rs*2.0;
   vec2 src = p - (p/r)*(k/r);
+
+  // the visitor's cursor is a small mass: it bends the stars into its own tiny lens
+  vec2 pm = (uv - uMouse)*vec2(uAsp,1.0);
+  float rm = length(pm) + 1e-4;
+  float km = 0.0011*uMouseOn;
+  src -= (pm/rm)*(km/max(rm, 0.02));
+
+  // a click sends a gravity shockwave through space
+  vec2 pw = (uv - uPulse.xy)*vec2(uAsp,1.0);
+  float pr = length(pw) + 1e-4;
+  float wx = (pr - uPulse.z*0.75)/0.06;
+  float wave = exp(-wx*wx) * (1.0 - clamp(uPulse.z/1.6, 0.0, 1.0)) * (1.0 - step(1.6, uPulse.z));
+  src += (pw/pr)*wave*0.03;
+
   vec2 bgp = src + uHole*vec2(uAsp,1.0) + vec2(uTime*0.004, uJ*1.2);
-  vec3 col = starfield(bgp) + nebula(bgp*0.7);
+  // scroll speed stretches stars into warp streaks
+  vec2 sbp = vec2(bgp.x, bgp.y/(1.0 + uWarp*9.0));
+  vec3 col = starfield(sbp)*(1.0 + uWarp*1.3) + nebula(bgp*0.7);
+  col += mix(vec3(0.0), vec3(0.35,0.5,1.0), uWarp)*0.05;
+  col += vec3(0.6,0.75,1.0)*wave*0.30;
+  float ex = (rm - sqrt(km + 1e-6))/0.004;
+  col += vec3(1.0,0.85,0.6)*exp(-ex*ex)*0.20*uMouseOn;
 
   float inside = 1.0 - smoothstep(rs*0.985, rs, r);
   float diskOn = 1.0 - smoothstep(0.7, 1.3, rs);
@@ -147,12 +169,15 @@ void main(){
     vec3 disk = hot * band * (0.35 + 1.3*n) * dop * 1.6;
 
     float arcR = sqrt(k)*1.02;
-    float arc = exp(-pow((r - arcR)/(rs*0.20), 2.0));
+    float ax = (r - arcR)/(rs*0.20);
+    float arc = exp(-ax*ax);
     float arcAng = pow(abs(p.y)/r, 1.2);
     float swirl = 0.6 + 0.8*fbm(vec2(atan(p.y, p.x)*3.0 + uTime*0.8, r/rs*2.0));
     vec3 arcCol = vec3(1.0, 0.68, 0.30) * arc * (0.25 + 0.9*arcAng) * swirl;
-    float ring = exp(-pow((r - rs*1.03)/(rs*0.045), 2.0))*1.8;
-    float glow = exp(-pow(r/(rs*2.6), 2.0))*0.25;
+    float rx = (r - rs*1.03)/(rs*0.045);
+    float ring = exp(-rx*rx)*1.8;
+    float gx = r/(rs*2.6);
+    float glow = exp(-gx*gx)*0.25;
 
     col *= (1.0 - inside);
     float front = step(p.y, 0.0);
@@ -184,11 +209,16 @@ void main(){
   let running = false, raf = 0, last = 0, frame = 0, emaDt = 16, slowSince = 0;
   const qs = new URLSearchParams(location.search);          // ?fx=force&scale=0.4 lets you test without auto-throttling
   const FORCE = qs.get('fx') === 'force';
+  const FORCE_WARP = qs.has('warp') ? clamp(parseFloat(qs.get('warp')) || 0, 0, 1) : null;
   let scale = parseFloat(qs.get('scale')) || (isMobile ? 0.5 : 0.7);
   const MIN_SCALE = 0.35;
   let Jtarget = 0, Jcur = 0, t0 = performance.now();
-  let mouseX = 0.5, mouseY = 0.5;
+  let mouseX = 0.5, mouseY = 0.5, mouseSeen = false, mOn = 0;
+  let sMx = 0.5, sMy = 0.5;
   let enabled = false;
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  let lastY = scrollY, warp = 0;
+  let pulse = { x: 0.5, y: 0.5, t0: -1e9 };
 
   function initGL() {
     gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: 'default' });
@@ -211,7 +241,7 @@ void main(){
     const a = gl.getAttribLocation(prog, 'a');
     gl.enableVertexAttribArray(a);
     gl.vertexAttribPointer(a, 2, gl.FLOAT, false, 0, 0);
-    ['uRes', 'uHole', 'uTime', 'uJ', 'uRs', 'uTunnel', 'uExit', 'uDim', 'uAsp'].forEach((n) => (loc[n] = gl.getUniformLocation(prog, n)));
+    ['uRes', 'uHole', 'uTime', 'uJ', 'uRs', 'uTunnel', 'uExit', 'uDim', 'uAsp', 'uWarp', 'uMouseOn', 'uMouse', 'uPulse'].forEach((n) => (loc[n] = gl.getUniformLocation(prog, n)));
     canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); setEnabled(false, true); });
     return true;
   }
@@ -296,16 +326,92 @@ void main(){
   }
 
   /* ------------------------------------------------------------------ HUD */
-  const hudPhase = $('#hudPhase'), hudDist = $('#hudDist'), hudVel = $('#hudVel');
+  const hudPhase = $('#hudPhase'), hudDist = $('#hudDist'), hudVel = $('#hudVel'), hudClock = $('#hudClock'), hudDate = $('#hudDate');
   const PHASES = ['LAUNCH', 'ORBIT', 'APPROACH', 'WORMHOLE', 'LANDING'];
-  function updateHud(J) {
-    if (!hudPhase) return;
-    const phase = J >= 0.93 ? 'NEW UNIVERSE' : PHASES[Math.min(4, Math.floor(J * 5))];
-    hudPhase.textContent = phase;
-    hudDist.textContent = J < 0.65 ? (Math.max(0, 1 - J / 0.65) * 42.0).toFixed(1) + ' AU' : J < 0.9 ? 'INSIDE' : 'ARRIVED';
-    const v = J < 0.7 ? 0.05 + 0.6 * smooth(J / 0.7) : J < 0.9 ? 0.99 : 0.0;
-    hudVel.textContent = v.toFixed(2) + 'c';
+  // Time dilation: the outside universe crawls while you are inside the hole, then catches up when you come out.
+  const START_M = 2021 * 12 + 7, END_M = 2026 * 12 + 10; // Aug 2021 .. Nov 2026
+  function outsideProgress(J) {
+    if (J < 0.5) return (J / 0.5) * 0.55;
+    if (J < 0.72) return 0.55 + ((J - 0.5) / 0.22) * 0.03;
+    return 0.58 + ((J - 0.72) / 0.28) * 0.42;
   }
+  const two = (n) => String(n).padStart(2, '0');
+  function updateHud(J, warpNow, now) {
+    if (!hudPhase) return;
+    hudPhase.textContent = J >= 0.93 ? 'NEW UNIVERSE' : PHASES[Math.min(4, Math.floor(J * 5))];
+    hudDist.textContent = J < 0.65 ? (Math.max(0, 1 - J / 0.65) * 42.0).toFixed(1) + ' AU' : J < 0.9 ? 'INSIDE' : 'ARRIVED';
+    const base = J < 0.7 ? 0.05 + 0.6 * smooth(J / 0.7) : J < 0.9 ? 0.99 : 0.0;
+    hudVel.textContent = Math.min(0.999, base + warpNow * 0.3).toFixed(2) + 'c';
+    if (hudClock) { const sec = Math.floor((now - t0) / 1000); hudClock.textContent = 'T+' + two(Math.floor(sec / 60)) + ':' + two(sec % 60); }
+    if (hudDate) { const m = Math.round(START_M + outsideProgress(J) * (END_M - START_M)); hudDate.textContent = Math.floor(m / 12) + '.' + two((m % 12) + 1); }
+  }
+
+  /* ------------------------------------------------------------------ generative sound (opt-in, no audio files) */
+  const sndBtn = $('#sndToggle');
+  const AC = window.AudioContext || window.webkitAudioContext;
+  const audio = (() => {
+    let ctx = null, on = false;
+    let master, lp, droneMix, lfo, noiseBp, noiseGain, padGain;
+    function build() {
+      ctx = new AC();
+      master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
+      lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 140; lp.Q.value = 0.9;
+      droneMix = ctx.createGain(); droneMix.gain.value = 0.8;
+      const pulseGain = ctx.createGain(); pulseGain.gain.value = 0.6;
+      [[55, 'sawtooth'], [55.6, 'sawtooth'], [27.5, 'sine']].forEach(([f, type]) => {
+        const o = ctx.createOscillator(); o.type = type; o.frequency.value = f;
+        const g = ctx.createGain(); g.gain.value = type === 'sine' ? 0.9 : 0.18;
+        o.connect(g); g.connect(lp); o.start();
+      });
+      lp.connect(pulseGain); pulseGain.connect(droneMix); droneMix.connect(master);
+      lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 0.2;
+      const lfoGain = ctx.createGain(); lfoGain.gain.value = 0.35;
+      lfo.connect(lfoGain); lfoGain.connect(pulseGain.gain); lfo.start();
+      const len = ctx.sampleRate * 2, buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
+      noiseBp = ctx.createBiquadFilter(); noiseBp.type = 'bandpass'; noiseBp.frequency.value = 400; noiseBp.Q.value = 0.7;
+      noiseGain = ctx.createGain(); noiseGain.gain.value = 0.02;
+      src.connect(noiseBp); noiseBp.connect(noiseGain); noiseGain.connect(master); src.start();
+      padGain = ctx.createGain(); padGain.gain.value = 0; padGain.connect(master);
+      [220, 277.18, 329.63, 440].forEach((f) => {
+        const o = ctx.createOscillator(); o.type = 'triangle'; o.frequency.value = f;
+        const g = ctx.createGain(); g.gain.value = 0.25; o.connect(g); g.connect(padGain); o.start();
+      });
+    }
+    return {
+      get on() { return on; },
+      async set(v) {
+        if (!AC) return;
+        if (v) {
+          if (!ctx) build();
+          await ctx.resume();
+          master.gain.setTargetAtTime(0.5, ctx.currentTime, 0.4);
+          on = true;
+        } else if (ctx) {
+          on = false;
+          master.gain.setTargetAtTime(0, ctx.currentTime, 0.15);
+          setTimeout(() => { if (!on && ctx) ctx.suspend(); }, 700);
+        }
+        if (sndBtn) { sndBtn.setAttribute('aria-pressed', String(v)); sndBtn.innerHTML = '♪<span class="fx-text"> sound: ' + (v ? 'on' : 'off') + '</span>'; }
+      },
+      update(J, warpNow, tunnel, exit) {
+        if (!on || !ctx) return;
+        const t = ctx.currentTime;
+        lp.frequency.setTargetAtTime(110 + 700 * smooth(clamp(J / 0.7, 0, 1)), t, 0.25);
+        droneMix.gain.setTargetAtTime((1 - exit) * 0.9, t, 0.4);
+        lfo.frequency.setTargetAtTime(0.15 + 2.2 * smooth(clamp((J - 0.3) / 0.4, 0, 1)), t, 0.4);
+        noiseGain.gain.setTargetAtTime(0.015 + warpNow * 0.45 + tunnel * 0.10, t, 0.12);
+        noiseBp.frequency.setTargetAtTime(300 + warpNow * 3200 + tunnel * 700, t, 0.12);
+        padGain.gain.setTargetAtTime(exit * 0.16, t, 0.7);
+      },
+    };
+  })();
+  if (sndBtn) {
+    if (!AC) sndBtn.hidden = true;
+    else sndBtn.addEventListener('click', () => audio.set(!audio.on));
+  }
+  document.addEventListener('visibilitychange', () => { if (document.hidden && audio.on) audio.set(false); });
 
   /* ------------------------------------------------------------------ loop */
   function draw(now) {
@@ -333,6 +439,24 @@ void main(){
     const hx = (portrait ? s[4] : s[2]) + (mouseX - 0.5) * 0.018;
     const hy = (portrait ? s[5] : s[3]) - (mouseY - 0.5) * 0.018;
 
+    // scroll speed -> warp streaks (fast attack, slow release)
+    const sy = scrollY;
+    const speed = Math.abs(sy - lastY) / Math.max(1, dt);
+    lastY = sy;
+    const wTarget = clamp(speed / 2.5, 0, 1);
+    warp += (wTarget - warp) * (1 - Math.exp(-dt * (wTarget > warp ? 0.02 : 0.004)));
+    if (FORCE_WARP !== null) warp = FORCE_WARP; // test flag: ?warp=1
+    // cursor lens (fine pointers only), eased
+    const mTarget = finePointer && mouseSeen ? 1 : 0;
+    mOn += (mTarget - mOn) * (1 - Math.exp(-dt * 0.008));
+    const ease = 1 - Math.exp(-dt * 0.02);
+    sMx += (mouseX - sMx) * ease; sMy += (mouseY - sMy) * ease;
+    const pAge = (now - pulse.t0) / 1000;
+
+    gl.uniform1f(loc.uWarp, warp);
+    gl.uniform1f(loc.uMouseOn, mOn);
+    gl.uniform2f(loc.uMouse, sMx, 1 - sMy);
+    gl.uniform3f(loc.uPulse, pulse.x, pulse.y, Math.min(pAge, 99));
     gl.uniform2f(loc.uRes, canvas.width, canvas.height);
     gl.uniform2f(loc.uHole, hx, hy);
     gl.uniform1f(loc.uTime, (now - t0) / 1000);
@@ -345,7 +469,8 @@ void main(){
     gl.drawArrays(gl.TRIANGLES, 0, 3);
 
     applyDom(s);
-    if (frame % 6 === 0) updateHud(Jcur);
+    audio.update(Jcur, warp, s[6], s[7]);
+    if (frame % 6 === 0) updateHud(Jcur, warp, now);
   }
 
   function setEnabled(on, silent, msg) {
@@ -358,6 +483,7 @@ void main(){
       if (!running) { running = true; last = performance.now(); raf = requestAnimationFrame(draw); }
     } else {
       running = false; cancelAnimationFrame(raf);
+      if (audio.on) audio.set(false);
       root.classList.add('calm');
       canvas.style.display = 'none';
       clearFx();
@@ -374,7 +500,13 @@ void main(){
   addEventListener('resize', () => { if (!enabled) return; resize(); buildLayout(); });
   addEventListener('load', () => { if (enabled) buildLayout(); });
   if ('ResizeObserver' in window) new ResizeObserver(() => { if (enabled) buildLayout(); }).observe(document.body);
-  addEventListener('pointermove', (e) => { mouseX = e.clientX / innerWidth; mouseY = e.clientY / innerHeight; }, { passive: true });
+  addEventListener('pointermove', (e) => { mouseX = e.clientX / innerWidth; mouseY = e.clientY / innerHeight; mouseSeen = true; }, { passive: true });
   document.addEventListener('visibilitychange', () => { last = performance.now(); });
+  document.addEventListener('pointerleave', () => { mouseSeen = false; });
+  document.addEventListener('click', (e) => {
+    if (!enabled || e.target.closest('a, button, input, textarea, label, #gameModal, #palette, .card, .term, .entry, .stat, .scan')) return;
+    pulse = { x: e.clientX / innerWidth, y: 1 - e.clientY / innerHeight, t0: performance.now() };
+  });
+  window.__space = { get warp() { return warp; }, get mouseOn() { return mOn; }, get pulseAge() { return (performance.now() - pulse.t0) / 1000; }, get audioOn() { return audio.on; } }; // read-only, for testing
   setEnabled(startOn, true);
 })();

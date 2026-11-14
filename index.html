@@ -85,7 +85,7 @@
 <div id="boot" aria-hidden="true"><pre id="bootText"></pre><div class="skiphint">CLICK OR PRESS ANY KEY TO SKIP</div></div>
 <canvas id="bg" aria-hidden="true"></canvas>
 <div class="noise" aria-hidden="true"></div>
-<div class="hud" aria-hidden="true"><div><span>PHASE</span><b id="hudPhase">LAUNCH</b></div><div><span>DISTANCE TO SINGULARITY</span><b id="hudDist">42.0 AU</b></div><div><span>VELOCITY</span><b id="hudVel">0.05c</b></div></div>
+<div class="hud" aria-hidden="true"><div><span>PHASE</span><b id="hudPhase">LAUNCH</b></div><div><span>DISTANCE TO SINGULARITY</span><b id="hudDist">42.0 AU</b></div><div><span>VELOCITY</span><b id="hudVel">0.05c</b></div><div><span>PROPER TIME</span><b id="hudClock">T+00:00</b></div><div><span>OUTSIDE DATE (TIME DILATION)</span><b id="hudDate">2021.08</b></div></div>
 <div class="cursor-ring" aria-hidden="true"></div><div class="cursor-dot" aria-hidden="true"></div>
 
 <header class="topbar">
@@ -93,6 +93,7 @@
   <nav class="nav" aria-label="Primary">
     <a href="#about">about</a><a href="#skills">skills</a><a href="#projects">projects</a><a href="#contact">contact</a>
     <button class="kbd-btn fx-toggle" id="fxToggle" type="button" aria-pressed="true" aria-label="Toggle space effects">✦<span class="fx-text"> effects: on</span></button>
+    <button class="kbd-btn fx-toggle" id="sndToggle" type="button" aria-pressed="false" aria-label="Toggle generative space sound">♪<span class="fx-text"> sound: off</span></button>
     <button class="kbd-btn" id="openPalette" type="button" aria-label="Open command palette">search <kbd>Ctrl K</kbd></button>
   </nav>
 </header>

@@ -280,7 +280,7 @@
         await sleep(600);
         print('<span class="ok">✔ permission granted.</span> offer letter drafted… just kidding. Email me!');
         confetti();
-        setTimeout(() => goTo('#contact'), 900);
+        setTimeout(() => goTo('#contact', 5), 900);
       } else print(`sudo: ${esc(cmd || 'what')}: command not found. try <span class="info">sudo hire danesh</span>`);
     },
     rm: () => print('<span class="bad">rm: read-only file system.</span> nice try 😄'),
