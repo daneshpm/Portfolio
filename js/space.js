@@ -268,7 +268,9 @@ void main(){
       const top = L.top - scrollY, bottom = top + L.h;
       const el = L.el;
       if (L.kind === 'suck') {
-        const t = clamp((vh * 0.5 - bottom) / (vh * 0.5), 0, 1);
+        // Only the last stretch before a block leaves the top edge: anything still being read stays untouched.
+        const zone = Math.min(vh * 0.26, 240);
+        const t = clamp((zone - bottom) / zone, 0, 1);
         if (t <= 0.001) {
           if (el.style.scale) { el.style.scale = ''; el.style.rotate = ''; el.style.transformOrigin = ''; el.style.visibility = ''; }
           continue;
