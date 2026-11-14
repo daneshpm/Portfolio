@@ -269,7 +269,7 @@ void main(){
       const el = L.el;
       if (L.kind === 'suck') {
         // Only the last stretch before a block leaves the top edge: anything still being read stays untouched.
-        const zone = Math.min(vh * 0.26, 240);
+        const zone = clamp(vh * 0.16, 90, 150);
         const t = clamp((zone - bottom) / zone, 0, 1);
         if (t <= 0.001) {
           if (el.style.scale) { el.style.scale = ''; el.style.rotate = ''; el.style.transformOrigin = ''; el.style.visibility = ''; }
