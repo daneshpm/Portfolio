@@ -17,4 +17,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://daneshpm.github.io/Portfolio/sitemap.xml
+Sitemap: https://danesh-portfolio-kohl.vercel.app/sitemap.xml
