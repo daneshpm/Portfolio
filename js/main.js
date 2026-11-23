@@ -246,11 +246,10 @@
       '<span class="info">02</span> ModuleForge            visual module builder <span class="ok">[live]</span>\n' +
       '<span class="info">03</span> DevSecOps Pipeline     Jenkins · K8s · Trivy\n' +
       '<span class="info">04</span> Network Security MLOps MLflow · Docker\n' +
-      '<span class="info">05</span> Expense Tracker API    Java 21 · Spring Boot\n' +
-      '<span class="info">06</span> Employee Mgmt · JWT    Spring Security · React\n' +
-      '<span class="info">07</span> AI Resume Screening    Gemini · Streamlit\n' +
-      '<span class="info">08</span> Cucumber Panic         browser game <span class="ok">[type: play]</span>\n' +
-      '<span class="info">09</span> Pizza Orchard         idle farm game <span class="ok">[type: play pizza]</span>\n<span class="mute">scrolling to projects…</span>'); setTimeout(() => goTo('#projects'), 500); },
+      '<span class="info">05</span> Employee Mgmt · JWT    Spring Security · React\n' +
+      '<span class="info">06</span> AI Resume Screening    Gemini · Streamlit\n' +
+      '<span class="info">07</span> Cucumber Panic         browser game <span class="ok">[type: play]</span>\n' +
+      '<span class="info">08</span> Pizza Orchard         idle farm game <span class="ok">[type: play pizza]</span>\n<span class="mute">scrolling to projects…</span>'); setTimeout(() => goTo('#projects'), 500); },
     experience: () => print(
       '<span class="warn">Sep–Dec 2024</span>  DevOps Intern @ IBM\n<span class="warn">Oct–Nov 2023</span>  ML Intern @ PRAGYAN AI\n<span class="warn">Oct–Nov 2022</span>  ML with Python Intern @ COMSOFT'),
     contact: () => { print(

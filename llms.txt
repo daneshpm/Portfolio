@@ -20,7 +20,6 @@
 - [ModuleForge](https://github.com/daneshpm/moduleforge-deploy): visual platform and deployment engine for composable modules; live at https://moduleforge-deploy-pearl.vercel.app
 - [DevSecOps Pipeline](https://github.com/daneshpm/IBM): Jenkins, Docker, Kubernetes, SonarQube, Trivy, OWASP ZAP on AWS EC2; ~40% faster deployments across 3 environments
 - [Network Security MLOps](https://github.com/daneshpm/Major_Project): ETL, MLflow/DagsHub tracking, Dockerised CI/CD; ~15-20% accuracy and pipeline efficiency improvement
-- [Smart Expense Tracker API](https://github.com/daneshpm/Expense_tracker): Java 21, Spring Boot, Swagger, JUnit 5, Mockito
 - [Employee Management with JWT](https://github.com/daneshpm/Employee_mangement): Spring Boot, Spring Security, React, MySQL
 - [AI Resume Screening](https://github.com/daneshpm/ResumeScreeningAgent): Sentence Transformers, Gemini API, Streamlit
 - Cucumber Panic: playable browser game (HTML5 canvas, JavaScript, no dependencies), playable from the portfolio page
