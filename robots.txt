@@ -17,4 +17,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://danesh.nirmaansolutions.in/sitemap.xml
+Sitemap: https://danesh-portfolio-kohl.vercel.app/sitemap.xml

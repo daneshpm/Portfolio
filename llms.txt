@@ -10,7 +10,7 @@
 - Core skills: Java, Spring Boot, Spring Security (JWT), Hibernate/JPA, REST APIs, Docker, Kubernetes, Jenkins, SonarQube, Trivy, OWASP ZAP, AWS EC2, Linux, MySQL, PostgreSQL, MongoDB, Python, TypeScript, Next.js, React, MLflow
 
 ## Links
-- [Portfolio](https://danesh.nirmaansolutions.in/): projects, experience, skills, contact
+- [Portfolio](https://danesh-portfolio-kohl.vercel.app/): projects, experience, skills, contact
 - [GitHub](https://github.com/daneshpm): source code for all projects
 - [LinkedIn](https://www.linkedin.com/in/daneshpm)
 - [LeetCode](https://leetcode.com/daneshpm) and [HackerRank](https://www.hackerrank.com/daneshpm): DSA practice in Java
@@ -27,4 +27,4 @@
 - Pizza Orchard: playable idle farm browser game (HTML5 canvas, JavaScript, no dependencies), playable from the portfolio page
 
 ## Contact
-Use the contact form at https://danesh.nirmaansolutions.in/#contact or message on LinkedIn.
+Use the contact form at https://danesh-portfolio-kohl.vercel.app/#contact or message on LinkedIn.
