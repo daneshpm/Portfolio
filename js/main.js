@@ -25,10 +25,10 @@
     lenis = new window.Lenis({ lerp: 0.1, smoothWheel: true });    const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
     requestAnimationFrame(raf);
   }
-  function goTo(id) {
+  function goTo(id, duration = 1.4) {
     const el = typeof id === 'string' ? $(id) : id;
     if (!el) return;
-    if (lenis) lenis.scrollTo(el, { offset: -10, duration: 1.4 });
+    if (lenis) lenis.scrollTo(el, { offset: -10, duration });
     else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
   }
   document.addEventListener('click', (e) => {
@@ -47,6 +47,7 @@
     clearTimeout(toastT);
     toastT = setTimeout(() => toastEl.classList.remove('show'), 2200);
   }
+  window.__toast = toast;
   async function copyEmail() {
     try { await navigator.clipboard.writeText(EMAIL); toast('Email copied ✔'); }
     catch (_) { toast(EMAIL); }
@@ -67,13 +68,13 @@
     if (reduce || seen) { boot.remove(); startHero(); return; }
     const pre = $('#bootText');
     const lines = [
-      '$ git push origin main',
-      '> pipeline #1 triggered by danesh',
-      '✔ checkout ........ ok',
+      '$ ./launch --target wormhole',
+      '> mission #1 initiated by danesh',
       '✔ build ........... java 21 · spring boot',
       '✔ scan ............ 0 critical',
-      '✔ test ............ all green',
-      '▸ deploying portfolio…',
+      '✔ trajectory ...... locked',
+      '✔ shields ......... up',
+      '▸ igniting engines…',
     ];
     let skipped = false;
     const skip = () => { skipped = true; };
@@ -232,7 +233,7 @@
   const COMMANDS = {
     help: () => print(
       '<span class="info">commands</span>\n' +
-      '  whoami        who am i\n  skills        tech stack\n  projects      what I\'ve built\n  experience    where I\'ve worked\n  contact       get in touch\n  ls / cat      poke around\n  pipeline      run the pipeline\n  play          play my games\n  clear         clean the screen\n  <span class="mute">…and a few secrets. Try sudo.</span>'),
+      '  whoami        who am i\n  skills        tech stack\n  projects      what I\'ve built\n  experience    where I\'ve worked\n  contact       get in touch\n  ls / cat      poke around\n  pipeline      run the pipeline\n  play          play my games\n  warp          jump through the wormhole\n  clear         clean the screen\n  <span class="mute">…and a few secrets. Try sudo.</span>'),
     whoami: () => print('<span class="ok">danesh</span> — backend &amp; devops engineer · Bengaluru, India\nJava · Spring Boot · Docker · Kubernetes · Jenkins\nB.E. AI &amp; ML (VTU) · 9.04 CGPA · 3 internships'),
     skills: () => print(
       '<span class="info">languages</span>  Java, Python, JavaScript, TypeScript, SQL\n' +
@@ -263,6 +264,7 @@
       if (f === '.secrets') return print('<span class="warn">permission denied.</span> hint: sudo hire danesh');
       print(a.length ? `cat: ${esc(a[0])}: No such file` : 'usage: cat &lt;file&gt;');
     },
+    warp: () => { print('<span class="ok">engaging warp drive…</span> hold on tight 🚀'); setTimeout(() => goTo('#contact', 6), 500); },
     pipeline: () => runPipelineOutput(),
     play: (a) => {
       const pizza = /pizza|orchard|farm/i.test((a || []).join(' '));
@@ -278,7 +280,7 @@
         await sleep(600);
         print('<span class="ok">✔ permission granted.</span> offer letter drafted… just kidding. Email me!');
         confetti();
-        setTimeout(() => goTo('#contact'), 900);
+        setTimeout(() => goTo('#contact', 5), 900);
       } else print(`sudo: ${esc(cmd || 'what')}: command not found. try <span class="info">sudo hire danesh</span>`);
     },
     rm: () => print('<span class="bad">rm: read-only file system.</span> nice try 😄'),
@@ -332,6 +334,7 @@
   /* ---------------- Command palette ---------------- */
   const pal = $('#palette'), palInput = $('#palInput'), palList = $('#palList');
   const ACTIONS = [
+    { t: 'Warp through the wormhole to Contact', k: 'warp jump wormhole space fast', hint: 'warp', run: () => goTo('#contact', 6) },
     { t: 'Go to Commit (top)', k: 'home hero', run: () => goTo('#home') },
     { t: 'Go to Build — about & experience', k: 'about experience internship ibm', run: () => goTo('#about') },
     { t: 'Go to Scan — skills', k: 'skills stack tech java docker', run: () => goTo('#skills') },
@@ -457,44 +460,6 @@
     });
   }
 
-  /* ---------------- Background: network of nodes ---------------- */
-  function initBg() {
-    const cv = $('#bg');
-    const ctx = cv.getContext('2d');
-    if (!ctx) return;
-    let w, h, dpr, nodes = [], mx = -999, my = -999, running = true;
-    const resize = () => {
-      dpr = Math.min(devicePixelRatio || 1, 1.5);
-      w = cv.width = innerWidth * dpr; h = cv.height = innerHeight * dpr;
-      const count = clamp(Math.round((innerWidth * innerHeight) / 24000), 24, 70);
-      nodes = Array.from({ length: count }, () => ({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.25 * dpr, vy: (Math.random() - 0.5) * 0.25 * dpr }));
-    };
-    resize(); addEventListener('resize', resize);
-    addEventListener('pointermove', (e) => { mx = e.clientX * dpr; my = e.clientY * dpr; }, { passive: true });
-    document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running) draw(); });
-    const maxD = 150 * dpr;
-    function draw() {
-      if (!running) return;
-      ctx.clearRect(0, 0, w, h);
-      for (let i = 0; i < nodes.length; i++) {
-        const a = nodes[i];
-        if (!reduce) { a.x += a.vx; a.y += a.vy; }
-        if (a.x < 0 || a.x > w) a.vx *= -1;
-        if (a.y < 0 || a.y > h) a.vy *= -1;
-        const dm = Math.hypot(a.x - mx, a.y - my);
-        ctx.beginPath(); ctx.arc(a.x, a.y, (dm < 180 * dpr ? 2.6 : 1.6) * dpr, 0, 6.283);
-        ctx.fillStyle = dm < 180 * dpr ? 'rgba(61,255,160,.9)' : 'rgba(61,255,160,.35)'; ctx.fill();
-        for (let j = i + 1; j < nodes.length; j++) {
-          const b = nodes[j];
-          const d = Math.hypot(a.x - b.x, a.y - b.y);
-          if (d < maxD) { ctx.strokeStyle = `rgba(92,200,255,${(1 - d / maxD) * 0.16})`; ctx.lineWidth = dpr * 0.8; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
-        }
-      }
-      if (!reduce) requestAnimationFrame(draw);
-    }
-    draw();
-  }
-
   /* ---------------- Confetti ---------------- */
   function confetti() {
     if (reduce) return;
@@ -519,7 +484,6 @@
   initLenis();
   initContact();
   initPointerFx();
-  initBg();
   updateRail();
   runBoot();
 })();
